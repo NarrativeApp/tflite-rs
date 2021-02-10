@@ -81,7 +81,6 @@ fn binary_changing_features() -> String {
 
 fn prepare_tensorflow_library() {
     let arch = env::var("CARGO_CFG_TARGET_ARCH").expect("Unable to get TARGET_ARCH");
-
     #[cfg(feature = "build")]
     {
         let tflite = prepare_tensorflow_source();
@@ -99,9 +98,7 @@ fn prepare_tensorflow_library() {
             if let Ok(prefix) = env::var("TARGET_TOOLCHAIN_PREFIX") {
                 make.arg(format!("TARGET_TOOLCHAIN_PREFIX={}", prefix));
             };
-            // Use cargo's cross-compilation information while building tensorflow
-            // Now that tensorflow has an aarch64_makefile.inc use theirs
-            let target = &os; //if &arch == "aarch64" { &arch } else { &os };
+            let target = &os;
 
             #[cfg(feature = "debug_tflite")]
             {
